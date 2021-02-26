@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from driver_app.models import *
 from .models import *
 
 @login_required(login_url='/sponsors/login')
@@ -31,11 +32,14 @@ def login_view(request):
   else:
     messages.add_message(request, messages.ERROR, 'Failed to login')
     form = AuthenticationForm()
-    return render(request = request, template_name = 'sponsor_app/login.html', context={"form":form})        
+    return render(request = request, template_name = 'sponsor_app/login.html', context={"form":form})
 
 def logout_view(request):
   logout(request)
   return login_view(request)
 
 def my_drivers_view(request):
-  return index(requst)
+  sponsor_user = Sponsor.objects.get(user=request.user)
+  my_drivers = Driver.objects.filter(sponsor=sponsor_user)
+  return render(request = request, template_name = 'sponsor_app/my_drivers.html', context={"my_drivers":my_drivers})
+
