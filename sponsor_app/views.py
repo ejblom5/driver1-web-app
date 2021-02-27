@@ -43,3 +43,28 @@ def my_drivers_view(request):
   my_drivers = Driver.objects.filter(sponsor=sponsor_user)
   return render(request = request, template_name = 'sponsor_app/my_drivers.html', context={"my_drivers":my_drivers})
 
+def home_page(request):
+    template = loader.get_template('sponsor_app/home.html')
+    return HttpResponse(template.render())
+
+def profile_page(request):
+    if request.method == 'POST':
+        profile_data = request.POST.dict()
+        if(len(profile_data.get("sponsor_name"))>0):
+            Sponsor.objects.filter(user=request.user).update(sponsor_name=profile_data.get("sponsor_name"))
+        if(len(profile_data.get("exchange_rate"))> 0):
+                Sponsor.objects.filter(user=request.user).update(exchange_rate=int(profile_data.get("exchange_rate")))
+
+    sponsor = Sponsor.objects.get(user=request.user)
+    return render(request = request, template_name = 'sponsor_app/profile.html', context={"sponsor":sponsor})
+
+def get_drivers_view(request):
+    sponsor_user = Sponsor.objects.get(user=request.user)
+    if request.method == 'POST':
+        application_data = request.POST.dict()
+        Driver.objects.filter(id=application_data["new_driver_id"]).update(sponsor=sponsor_user)
+        Application.objects.filter(id=application_data["application_id"]).delete()
+
+    my_applications = Application.objects.filter(sponsor=sponsor_user)
+    return render(request = request, template_name = 'sponsor_app/get_drivers.html', context={"my_applications":my_applications})
+
