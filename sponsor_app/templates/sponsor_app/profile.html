@@ -1,0 +1,16 @@
+{% extends 'sponsor_app/base.html' %}
+
+{% block content %}
+<H1>My Profile</H1>
+<form action="/sponsors/profile" method="post">
+  {% csrf_token %}
+  <label for="sponsor_name">Name: {{sponsor.sponsor_name}}</label><br>
+  <input type="text" id="sponsor_name" name="sponsor_name"><br>
+  <label for="exchange_rate">Exchange Rate: {{sponsor.exchange_rate}}</label><br>
+  <input type="number" id="exchange_rate" name="exchange_rate"><br>
+  <label for="catalog">Catalog: {{sponsor.catalog}}</label><br>
+  <input type="text" id="catalog" name="catalog"><br>
+  <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
