@@ -9,4 +9,5 @@ urlpatterns = [
   path('my_drivers',views.my_drivers_view, name='my drivers'),
   path('profile',views.profile_page, name='profile'),
   path('get_drivers',views.get_drivers_view, name='get drivers'),
+  path('edit_driver/<int:id>',views.edit_driver_view, name='get drivers'),
 ]

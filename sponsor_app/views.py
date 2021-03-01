@@ -14,39 +14,52 @@ def index(request):
   return HttpResponse(template.render())
 
 def login_view(request):
-  auth_user = None
-  sponsor_user = None
-  if request.method == 'POST':
-    username = request.POST['username']
-    password = request.POST['password']
+  # if not logged in already
+  if(request.user.is_authenticated == False):
+      # check if loggin form was submitted
+      form = AuthenticationForm()
+      if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
 
-    # first check if the credentials belong to a user
-    auth_user = authenticate(request, username=username, password=password)
-    # then check if the user is a sponsor user
-    sponsor_user = Sponsor.objects.filter(user=auth_user)
-
-  if auth_user is not None and sponsor_user is not None:
-    login(request, auth_user)
+        # first check if the credentials belong to a user
+        auth_user = authenticate(request, username=username, password=password)
+        # then check if the user is a sponsor user
+        sponsor_user = Sponsor.objects.filter(user=auth_user)
+        if auth_user is None:
+            messages.add_message(request, messages.ERROR, 'No account matching the provided credentials')
+            return render(request = request, template_name = 'sponsor_app/login.html', context={"form":form})
+        elif not sponsor_user:
+            messages.add_message(request, messages.ERROR, 'Account not authorized to view the sponsor pages')
+            return render(request = request, template_name = 'sponsor_app/login.html', context={"form":form})
+        login(request, auth_user)
+        template = loader.get_template('sponsor_app/index.html')
+        return HttpResponse(template.render())
+      # if this is just visiting login page as un logged in user
+      else:
+       return render(request = request, template_name = 'sponsor_app/login.html', context={"form":form})
+  # if already logged in
+  else:
     template = loader.get_template('sponsor_app/index.html')
     return HttpResponse(template.render())
-  else:
-    messages.add_message(request, messages.ERROR, 'Failed to login')
-    form = AuthenticationForm()
-    return render(request = request, template_name = 'sponsor_app/login.html', context={"form":form})
 
+@login_required(login_url='/sponsors/login')
 def logout_view(request):
   logout(request)
   return login_view(request)
 
+@login_required(login_url='/sponsors/login')
 def my_drivers_view(request):
   sponsor_user = Sponsor.objects.get(user=request.user)
   my_drivers = Driver.objects.filter(sponsor=sponsor_user)
   return render(request = request, template_name = 'sponsor_app/my_drivers.html', context={"my_drivers":my_drivers})
 
+@login_required(login_url='/sponsors/login')
 def home_page(request):
     template = loader.get_template('sponsor_app/home.html')
     return HttpResponse(template.render())
 
+@login_required(login_url='/sponsors/login')
 def profile_page(request):
     if request.method == 'POST':
         profile_data = request.POST.dict()
@@ -58,6 +71,7 @@ def profile_page(request):
     sponsor = Sponsor.objects.get(user=request.user)
     return render(request = request, template_name = 'sponsor_app/profile.html', context={"sponsor":sponsor})
 
+@login_required(login_url='/sponsors/login')
 def get_drivers_view(request):
     sponsor_user = Sponsor.objects.get(user=request.user)
     if request.method == 'POST':
@@ -67,4 +81,10 @@ def get_drivers_view(request):
 
     my_applications = Application.objects.filter(sponsor=sponsor_user)
     return render(request = request, template_name = 'sponsor_app/get_drivers.html', context={"my_applications":my_applications})
+
+@login_required(login_url='/sponsors/login')
+def edit_driver_view(request,id):
+    driver_id = id
+    my_driver = Driver.objects.get(id=driver_id) 
+    return render(request = request, template_name = 'sponsor_app/edit_driver.html',context={"driver":my_driver})
 
