@@ -10,4 +10,5 @@ urlpatterns = [
   path('profile',views.profile_page, name='profile'),
   path('get_drivers',views.get_drivers_view, name='get drivers'),
   path('edit_driver/<int:id>',views.edit_driver_view, name='get drivers'),
+  path('catalog',views.catalog_view, name='catalog'),
 ]

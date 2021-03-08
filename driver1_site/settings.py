@@ -23,6 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-tx$csydix+l#gy6&zyn1wy!omsogk6e66q*e533bsopj&mpg9j'
+SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,6 +32,9 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+TEMPLATE_DIRS = (
+    os.path.join(SETTINGS_PATH, 'templates'),
+)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -42,6 +46,7 @@ INSTALLED_APPS = [
     'accounts',
     'sponsor_app',
     'driver_app',
+    'home_app',
     'rest_framework',
 ]
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -79,9 +84,8 @@ WSGI_APPLICATION = 'driver1_site.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-
-# FOR RUNNING LOCALLY
 '''
+# FOR RUNNING LOCALLY
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -93,6 +97,7 @@ DATABASES = {
 '''
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+
 # Password validation
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
@@ -129,6 +134,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR,  'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-auto-field

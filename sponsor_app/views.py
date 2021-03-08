@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+import requests
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -88,3 +89,13 @@ def edit_driver_view(request,id):
     my_driver = Driver.objects.get(id=driver_id) 
     return render(request = request, template_name = 'sponsor_app/edit_driver.html',context={"driver":my_driver})
 
+@login_required(login_url='/sponsors/login')
+def catalog_view(request):
+    response = requests.get("https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=ErikBlom-Software-PRD-2dc743efd-8d8e7010&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=cat&paginationInput.entriesPerPage=15&GLOBAL-ID=EBAY-US&siteid=0")
+    catalog = response.json()
+    catalog = catalog["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"]
+    for i in catalog:
+        i["galleryURL"] = i["galleryURL"][0]
+        i["title"] = i["title"][0]
+    print(catalog[0]["galleryURL"][0])
+    return render(request = request, template_name = 'sponsor_app/catalog.html',context={"catalog":catalog})

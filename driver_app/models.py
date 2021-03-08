@@ -9,6 +9,7 @@ class Driver(models.Model):
   phone = models.CharField(max_length=12)
   qualifications = models.CharField(max_length=500)
   name = models.CharField(max_length=25)
+  email = models.CharField(max_length=25, default='test@test.com')
   address = models.CharField(max_length=100)
   credits = models.IntegerField(default=0)
   # time in days

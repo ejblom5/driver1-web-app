@@ -1,0 +1,15 @@
+.btn {
+  background-color: 82 45 128;
+}
+
+.my-class {
+  color: red;
+}
+
+.card {
+  margin: auto;
+}
+.card:hover {
+  transform: scale(1.1);
+}
+
