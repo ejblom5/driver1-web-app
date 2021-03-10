@@ -1,4 +1,4 @@
-{% extends 'sponsor_app/base.html' %}
+{% extends 'admin_app/base.html' %}
 
 {% block content %}
 
@@ -9,7 +9,7 @@
     </div>
     <div class="col-6">
       <H1>{{driver.name}} (id: {{driver.id}})</H1>
-      <form action="/sponsors/edit_driver/{{driver.id}}" method="post">
+      <form action="/admins/edit_driver/{{driver.id}}" method="post">
         {% csrf_token %}
         <div class="form-group">
           <label for="name">Name: {{driver.name}}</label><br>
@@ -22,12 +22,6 @@
         <button type="submit" class="btn btn-primary">Update Driver</button>
       </form>
       </br>
-      <form action="/sponsors/remove_driver/{{driver.id}}" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-          <button type="submit" class="btn btn-danger">Remove Driver</button>
-        </div>
-      </form>
     </div>
     <div class="col-3">
     </div>

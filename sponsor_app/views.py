@@ -11,8 +11,9 @@ from .models import *
 
 @login_required(login_url='/sponsors/login')
 def index(request):
-  template = loader.get_template('sponsor_app/index.html')
-  return HttpResponse(template.render())
+  sponsor_user = Sponsor.objects.get(user=request.user)
+  my_drivers = Driver.objects.filter(sponsor=sponsor_user)
+  return render(request = request, template_name = 'sponsor_app/index.html', context={"my_drivers":my_drivers})
 
 def login_view(request):
   # if not logged in already
@@ -84,9 +85,27 @@ def get_drivers_view(request):
     return render(request = request, template_name = 'sponsor_app/get_drivers.html', context={"my_applications":my_applications})
 
 @login_required(login_url='/sponsors/login')
+def remove_driver_view(request,id):
+    driver_id = id
+    if request.method == 'POST':
+        Driver.objects.filter(id=driver_id).update(sponsor=None) 
+    return my_drivers_view(request)
+
+@login_required(login_url='/sponsors/login')
 def edit_driver_view(request,id):
     driver_id = id
-    my_driver = Driver.objects.get(id=driver_id) 
+    if request.method == 'POST':
+        profile_data = request.POST.dict()
+        print()
+        if(len(profile_data.get("address"))>0):
+            print(profile_data.get("address"))
+            Driver.objects.filter(id=driver_id).update(address=profile_data.get("address"))
+        if(len(profile_data.get("name"))>0):
+            Driver.objects.filter(id=driver_id).update(name=profile_data.get("name"))
+        if(len(profile_data.get("credits")) > 0):
+            print(profile_data.get("credits"))
+            Driver.objects.filter(id=driver_id).update(credits=int(profile_data.get("credits")))
+    my_driver = Driver.objects.get(id=driver_id)
     return render(request = request, template_name = 'sponsor_app/edit_driver.html',context={"driver":my_driver})
 
 @login_required(login_url='/sponsors/login')

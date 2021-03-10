@@ -1,0 +1,30 @@
+{% extends 'admin_app/base.html' %}
+{% block content %}
+<H1>My Drivers</H1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Address</th>
+      <th scope="col">Credits</th>
+      <th scope="col">Qualifications</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for driver in my_drivers %}
+    <tr>
+      <th scope="row">{{driver.id}}</th>
+      <td>{{driver.name}}</td>
+      <td>{{driver.phone}}</td>
+      <td>{{driver.address}}</td>
+      <td>{{driver.credits}}</td>
+      <td>{{driver.qualifications}}</td>
+      <td> <p><a href="/admins/edit_driver/{{driver.id}}">Edit</a></p>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -5,9 +5,13 @@
       <div class="container">
       <div class="row">
         {% for item in catalog %}
-          <div class="col-3">
-            <p>{{item.title}}</p>
-            <img src={{item.galleryURL}} alt="Italian Trulli">
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src={{item.galleryURL}} alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">16 Smeckles </h5>
+              <p class="card-text">{{item.title}}</p>
+              <a href="/sponsors" class="btn btn-primary">View</a>
+            </div>
           </div>
         {% endfor %}
       </div>

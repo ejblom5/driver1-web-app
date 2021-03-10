@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    </head>
+    <body>
+      <div class="container">
+        <div class="row">
+          <div class="col-1">
+            <div class="sidenav">
+              <a href="/admins">Home</a>
+              <a href="/admins/my_drivers">My Drivers</a>
+              <a href="/admins/catalog">My Catalog</a>
+              <a href="/admins/profile">Profile</a>
+              <a href="/admins/logout">Logout</a>
+            </div>
+          </div>
+          <div class="col-9">
+            {% if messages %}
+              {% for message in messages %}
+                <p style="color: red">{{ message }}</p>
+              {% endfor %}
+            {% endif %}
+
+            {% block content %}
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+    </body>
+</html>

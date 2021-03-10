@@ -1,44 +1,36 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
     </head>
     <body>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Trucking Sponsor</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="/sponsors">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/sponsors/my_drivers">My Drivers</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/sponsors/get_drivers">Get New Drivers</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/sponsors/catalog">My Catalog</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/sponsors/profile">Profile</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/sponsors/logout">Logout</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      {% if messages %}
-        {% for message in messages %}
-          <p style="color: red">{{ message }}</p>
-        {% endfor %}
-      {% endif %}
-
-      {% block content %}
-      {% endblock %}
+          <body>
+            <div class="container">
+              <div class="row">
+                <div class="col-1">
+                  <div class="sidenav">
+                    <a href="/sponsors">Home</a>
+                    <a href="/sponsors/my_drivers">My Drivers</a>
+                    <a href="/sponsors/catalog">My Catalog</a>
+                    <a href="/sponsors/get_drivers">Get New Drivers</a>
+                    <a href="/sponsors/profile">Profile</a>
+                    <a href="/sponsors/logout">Logout</a>
+                  </div>
+                </div>
+                <div class="col-9">
+                  {% if messages %}
+                    {% for message in messages %}
+                      <p style="color: red">{{ message }}</p>
+                    {% endfor %}
+                  {% endif %}
+      
+                  {% block content %}
+                  {% endblock %}
+                </div>
+              </div>
+            </div>
+          </body>
     </body>
 </html>

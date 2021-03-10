@@ -10,6 +10,8 @@ from sponsor_app.models import Sponsor
 from driver_app.models import Driver 
 from accounts.models import CustomUser
 from rest_framework.response import Response
+from django.contrib.auth import authenticate
+from driver_app.models import *
 import requests
 
 class CatalogViewSet(viewsets.ViewSet):
@@ -39,8 +41,30 @@ def driver_list(request):
     if request.method == 'POST':
         user = CustomUser.objects.create_user(email=request.data['email'],
                                 password='pass')
-        request.data['user'] = user.id 
+        request.data['user'] = user.id
 
-        drivers = Driver.objects.all()
-        serializer = DriverSerializer(drivers, many=True)
+        new_driver = Driver(email=request.data['email'], user=user, phone=request.data['phone'], name=request.data['name'], address=request.data['address'])
+        new_driver.save()
+
+        drivers = Driver.objects.get(id=new_driver.id)
+        serializer = DriverSerializer(drivers)
         return Response(serializer.data)
+
+@api_view(['POST'])
+def authenticate_driver(request):
+    user = authenticate(username=request.data['email'], password=request.data['password'])
+    if user:
+        driver = Driver.objects.filter(user=user.id)
+        if driver:
+            serializer = DriverSerializer(driver)
+            return Response(serializer.data)
+    return HttpResponse('Unauthorized', status=401)
+
+def catalog_search(request):
+    user = authenticate(username=request.data['email'], password=request.data['password'])
+    if user:
+        driver = Driver.objects.filter(user=user.id)
+        if driver:
+            serializer = DriverSerializer(driver)
+            return Response(serializer.data)
+    return HttpResponse('Unauthorized', status=401)

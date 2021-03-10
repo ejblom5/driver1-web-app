@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'accounts',
     'sponsor_app',
     'driver_app',
+    'admin_app',
     'home_app',
     'rest_framework',
 ]

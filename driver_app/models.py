@@ -5,7 +5,8 @@ from sponsor_app.models import Sponsor
 
 class Driver(models.Model):
   user = models.OneToOneField(CustomUser,on_delete=models.CASCADE)
-  sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE, default=None)
+  sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE, default=None, null=True)
+  is_admin = models.BooleanField(default=False)
   phone = models.CharField(max_length=12)
   qualifications = models.CharField(max_length=500)
   name = models.CharField(max_length=25)

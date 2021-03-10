@@ -1,0 +1,39 @@
+.card {
+  margin: 20px;
+}
+
+.card:hover {
+  transform: scale(1.1);
+}
+
+.custom-nav {
+  background-color: #818181;
+}
+
+.sidenav {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #333333;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #B94700;
+}
+
+.button-clem {
+  background-color: #F56600;
+}
