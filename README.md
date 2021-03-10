@@ -8,3 +8,29 @@
 
 # Database Things
 In order to run the django app locally you may have to change what the database is pointing at in the settings.py file. If you change it to run locally make sure you don't commit that change to the master branch since then heroku will try to use a local db instead of the installed postgres one.
+
+# API
+base url: https://driver1-web-app.herokuapp.com
+
+Endpoints:
+
+/drivers
+  - GET (get a list of all drivers)
+  - POST (create a new driver)
+    - request body: { "email": "example@example.com", "password": "example password", "name": "example name", "phone": "1111",      "address": "example address" }
+
+/drivers/{driver_id}
+  - GET (get a single driver based on the driver id passed into the route)
+  - PUT (update a single driver)
+    - request body: { "address" : "new address" }
+
+/sponsors
+  - GET (get a list of all sponsors)
+
+/sponsors/{sponsor_id}
+  - GET (get a single sponsor based on the sponsor id passed into the route)
+
+/authenticate
+  - POST (checks if the credentials passed into the request are authorized driver credentials)
+    - request body: { "email": "example@example.com", "password": "example password" }
+
