@@ -21,7 +21,7 @@ Endpoints:
 
 /api/drivers/{driver_id}
   - GET (get a single driver based on the driver id passed into the route)
-  - PUT (update a single driver)
+  - PATCH (update a single driver)
     - request body: { "address" : "new address" }
 
 /api/sponsors
