@@ -14,23 +14,23 @@ base url: https://driver1-web-app.herokuapp.com
 
 Endpoints:
 
-/drivers
+/api/drivers
   - GET (get a list of all drivers)
   - POST (create a new driver)
     - request body: { "email": "example@example.com", "password": "example password", "name": "example name", "phone": "1111",      "address": "example address" }
 
-/drivers/{driver_id}
+/api/drivers/{driver_id}
   - GET (get a single driver based on the driver id passed into the route)
-  - PUT (update a single driver)
+  - PATCH (update a single driver)
     - request body: { "address" : "new address" }
 
-/sponsors
+/api/sponsors
   - GET (get a list of all sponsors)
 
-/sponsors/{sponsor_id}
+/api/sponsors/{sponsor_id}
   - GET (get a single sponsor based on the sponsor id passed into the route)
 
-/authenticate
+/api/authenticate
   - POST (checks if the credentials passed into the request are authorized driver credentials)
     - request body: { "email": "example@example.com", "password": "example password" }
 
