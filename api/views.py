@@ -82,11 +82,10 @@ def authenticate_driver(request):
             return Response(serializer.data)
     return HttpResponse('Unauthorized', status=401)
 
-def catalog_search(request):
-    user = authenticate(username=request.data['email'], password=request.data['password'])
-    if user:
-        driver = Driver.objects.filter(user=user.id)
-        if driver:
-            serializer = DriverSerializer(driver)
-            return Response(serializer.data)
-    return HttpResponse('Unauthorized', status=401)
+@api_view(['GET'])
+def catalog_search(request,item):
+    response = requests.get("https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=ErikBlom-Software-PRD-2dc743efd-8d8e7010&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords="+item+"&paginationInput.entriesPerPage=15&GLOBAL-ID=EBAY-US&siteid=0")
+    catalog = response.json()
+    catalog = catalog["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"]
+    return Response(catalog)
+
