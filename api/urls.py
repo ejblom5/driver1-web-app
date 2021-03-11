@@ -14,7 +14,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('drivers/', views.driver_list),
-    path('drivers/<int:pk>', views.DriverDetail.as_view()),
+    path('drivers/<int:id>', views.driver_detail),
     path('sponsors/', views.SponsorList.as_view()),
     path('sponsors/<int:pk>', views.SponsorDetail.as_view()),
     path('authenticate', views.authenticate_driver)

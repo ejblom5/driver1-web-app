@@ -5,13 +5,12 @@ from sponsor_app.models import Sponsor
 
 class Driver(models.Model):
   user = models.OneToOneField(CustomUser,on_delete=models.CASCADE)
-  sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE, default=None, null=True)
+  sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE, default=None, null=True, blank=True)
   is_admin = models.BooleanField(default=False)
   phone = models.CharField(max_length=12)
-  qualifications = models.CharField(max_length=500)
+  qualifications = models.CharField(max_length=500, blank=True)
   name = models.CharField(max_length=25)
-  email = models.CharField(max_length=25, default='test@test.com')
-  address = models.CharField(max_length=100)
+  address = models.CharField(max_length=50)
   credits = models.IntegerField(default=0)
   # time in days
   time_with_sponsor = models.IntegerField(default=0)

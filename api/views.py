@@ -28,9 +28,20 @@ class SponsorDetail(generics.RetrieveAPIView):
     queryset = Sponsor.objects.all()
     serializer_class = SponsorSerializer 
 
-class DriverDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Driver.objects.all()
-    serializer_class = DriverSerializer
+@api_view(['GET','PATCH'])
+def driver_detail(request,id):
+    driver_id = id
+    if request.method == 'GET':
+        drivers = Driver.objects.get(id=driver_id)
+        serializer = DriverSerializer(drivers)
+        return Response(serializer.data)
+    if request.method == 'PATCH':
+        driver = Driver.objects.get(id=driver_id)
+        serializer = DriverSerializer(driver, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(data=serializer.data,status=200)
+        return JsonResponse(data="wrong parameters",status=400)
 
 @api_view(['GET','POST'])
 def driver_list(request):
@@ -39,16 +50,27 @@ def driver_list(request):
         serializer = DriverSerializer(drivers, many=True)
         return Response(serializer.data)
     if request.method == 'POST':
-        user = CustomUser.objects.create_user(email=request.data['email'],
-                                password='pass')
+        data = request.data
+        print(data)
+        print(request.data)
+        if(not("email" in data and "password" in data)):
+            return JsonResponse(data="email/password required",status=400, safe=False)
+
+        # create user associated with the driver
+        try:
+            user = CustomUser.objects.create_user(email=data['email'], password=data['password'])
+        except:
+            return JsonResponse(data="User email already taken",status=400, safe=False)
+
         request.data['user'] = user.id
+        data.pop('email')
 
-        new_driver = Driver(email=request.data['email'], user=user, phone=request.data['phone'], name=request.data['name'], address=request.data['address'])
-        new_driver.save()
-
-        drivers = Driver.objects.get(id=new_driver.id)
-        serializer = DriverSerializer(drivers)
-        return Response(serializer.data)
+        serializer = DriverSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.create()
+            serializer.save()
+            return JsonResponse(data=serializer.data,status=200,safe=False)
+        return JsonResponse(data="wrong parameters",status=400, safe=False)
 
 @api_view(['POST'])
 def authenticate_driver(request):

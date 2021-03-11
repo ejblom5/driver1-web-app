@@ -10,4 +10,4 @@ class SponsorSerializer(serializers.ModelSerializer):
 class DriverSerializer(serializers.ModelSerializer):
     class Meta:
         model = Driver 
-        fields = ['name','address','sponsor','phone','credits','email']
+        fields = ['name','address','sponsor','phone','credits']
