@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from driver_app.models import *
 from .models import *
+from api.views import * 
 
 @login_required(login_url='/sponsors/login')
 def index(request):
@@ -110,9 +111,13 @@ def edit_driver_view(request,id):
 
 @login_required(login_url='/sponsors/login')
 def catalog_view(request):
-    response = requests.get("https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=ErikBlom-Software-PRD-2dc743efd-8d8e7010&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=cat&paginationInput.entriesPerPage=15&GLOBAL-ID=EBAY-US&siteid=0")
-    catalog = response.json()
-    catalog = catalog["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"]
+    search_param = "shoes"
+    if request.method == 'POST':
+        data = request.POSt.dict()
+        search_param = data.search_param
+    route = request.build_absolute_uri('/api/')
+    catalog = requests.get(route+"catalog/"+search_param) 
+    catalog = catalog.json()
     for i in catalog:
         i["galleryURL"] = i["galleryURL"][0]
         i["title"] = i["title"][0]

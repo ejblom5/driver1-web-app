@@ -22,8 +22,9 @@
                   </div>
                 </li>
               </ul>
-              <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <form class="form-inline my-2 my-lg-0" action="catalog" method='POST'>
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" id="search_param" name="search_param" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn button-clem" type="submit">Search</button>
               </form>
             </div>
@@ -36,7 +37,7 @@
           <div class="card" style="width: 18rem;">
             <img class="card-img-top" src={{item.galleryURL}} alt="Card image cap">
             <div class="card-body">
-              <h5 class="card-title">16 Smeckles </h5>
+              <h5 class="card-title">${{item.price}}</h5>
               <p class="card-text">{{item.title}}</p>
               <a href="/sponsors" class="btn btn-primary button-clem">View</a>
             </div>

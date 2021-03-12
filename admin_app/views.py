@@ -57,14 +57,23 @@ def my_drivers_view(request):
 
 @login_required(login_url='/admins/login')
 def catalog_view(request):
-    response = requests.get("https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=ErikBlom-Software-PRD-2dc743efd-8d8e7010&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=cat&paginationInput.entriesPerPage=15&GLOBAL-ID=EBAY-US&siteid=0")
-    catalog = response.json()
-    catalog = catalog["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"]
-    for i in catalog:
-        i["galleryURL"] = i["galleryURL"][0]
-        i["title"] = i["title"][0]
-    print(catalog[0]["galleryURL"][0])
-    return render(request = request, template_name = 'admin_app/catalog.html',context={"catalog":catalog})
+     search_param = "shoes"
+     if request.method == 'POST':
+         data = request.POST.dict()
+         search_param = data["search_param"]
+         print(search_param)
+     route = request.build_absolute_uri('/api/')
+     catalog = requests.get(route+"catalog/"+search_param)
+
+     if catalog.status_code == 200:
+        catalog = catalog.json()
+        for i in catalog:
+            i["galleryURL"] = i["galleryURL"][0]
+            i["title"] = i["title"][0]
+            i["price"] = i["sellingStatus"][0]["currentPrice"][0]["__value__"]
+     else:
+         catalog = []
+     return render(request = request, template_name = 'admin_app/catalog.html',context={"catalog":catalog})
 
 @login_required(login_url='/admins/login')
 def profile_page(request):
