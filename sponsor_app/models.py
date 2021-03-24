@@ -8,3 +8,4 @@ class Sponsor(models.Model):
   exchange_rate = models.IntegerField(default=1)
   catalog = models.CharField(max_length=100)
   catalog_key = models.CharField(max_length=100)
+  application_requirements = models.CharField(max_length=600)
