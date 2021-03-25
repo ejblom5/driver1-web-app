@@ -16,7 +16,7 @@ class Driver(models.Model):
   time_with_sponsor = models.IntegerField(default=0)
 
 class Application(models.Model):
-    driver = models.OneToOneField(Driver,on_delete=models.CASCADE)
+    driver = models.ForeignKey(Driver,on_delete=models.CASCADE)
     sponsor = models.ForeignKey(Sponsor, on_delete=models.CASCADE)
     created_at = models.TimeField(auto_now=False, auto_now_add=True)
 

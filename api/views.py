@@ -4,7 +4,7 @@ from rest_framework import viewsets, mixins, generics, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView 
-from .serializers import SponsorSerializer, DriverSerializer 
+from .serializers import * 
 from django.http.response import JsonResponse
 from sponsor_app.models import * 
 from driver_app.models import * 
@@ -55,8 +55,6 @@ def driver_list(request):
         return Response(serializer.data)
     if request.method == 'POST':
         data = request.data
-        print(data)
-        print(request.data)
         if(not("email" in data and "password" in data)):
             return JsonResponse(data="email/password required",status=400, safe=False)
 
@@ -88,24 +86,32 @@ def authenticate_driver(request):
     #        return HttpResponse("good", status=200)
     return HttpResponse("good", status=200)
 
-@api_view(['POST'])
-def submit_application(request):
+@api_view(['POST','GET'])
+def application(request):
     if request.method == 'POST':
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        if(not("driver_id" in data and "sponsor_id" in data)):
+        data=json.loads(request.body)
+        if('driver_id' not in data or 'sponsor_id' not in data):
             return JsonResponse(data="driver_id and sponsor_id required",status=400, safe=False)
-        existing_application = Application.objects.get(driver=data.driver_id,sponsor=data.sponsor_id)
-        if(existing_application is not None):
-            serializer = ApplicationSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.create()
-                serializer.save()
-                return JsonResponse(data=serializer.data,status=200,safe=False)
-            else:
-                return JsonResponse(data="wrong parameters",status=400, safe=False)
+        # check if application exists
+        driver = Driver.objects.filter(id=data["driver_id"])
+        sponsor = Sponsor.objects.filter(id=data["sponsor_id"])
+        if driver.count() == 0:
+            return JsonResponse(data="not a valid driver",status=400, safe=False)
+        elif sponsor.count() == 0:
+            return JsonResponse(data="not a valid sponsor",status=400, safe=False)
+        driver = driver.first()
+        sponsor = sponsor.first()
+        existing_application = Application.objects.filter(driver=driver,sponsor=sponsor)
+        if(existing_application.count() == 0):
+            app = Application(driver=driver,sponsor=sponsor)
+            app.save()
+            return JsonResponse(data="Application submitted",status=200, safe=False)
         else:
-            return JsonResponse(data="application already existing",status=400, safe=False)
+            return JsonResponse(data="application already exists",status=400, safe=False)
+    if request.method == 'GET':
+        apps = Application.objects.all()
+        serializer = ApplicationSerializer(apps, many=True)
+        return Response(serializer.data)
 
 @api_view(['GET'])
 def catalog_search(request,item):

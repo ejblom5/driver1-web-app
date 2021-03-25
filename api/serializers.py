@@ -15,4 +15,4 @@ class DriverSerializer(serializers.ModelSerializer):
 class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Application 
-        fields = ['driver','sponsor','create_at']
+        fields = ['driver','sponsor','created_at']
