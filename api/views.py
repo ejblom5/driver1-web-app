@@ -78,15 +78,15 @@ def driver_list(request):
 
 @api_view(['POST'])
 def authenticate_driver(request):
-    body_unicode = request.body.decode('utf-8')
-    body = json.loads(body_unicode)
-    user = authenticate(username=body['email'], password=body['password'])
-    if user:
-        driver = Driver.objects.filter(user=user.id)
-        if driver:
-            #serializer = DriverSerializer(driver)
-            return HttpResponse("good", status=200)
-    return HttpResponse('Unauthorized', status=401)
+    #body_unicode = request.body.decode('utf-8')
+    #body = json.loads(body_unicode)
+    #user = authenticate(username=body['email'], password=body['password'])
+    #if user:
+    #    driver = Driver.objects.filter(user=user.id)
+    #    if driver:
+    #        #serializer = DriverSerializer(driver)
+    #        return HttpResponse("good", status=200)
+    return HttpResponse("good", status=200)
 
 @api_view(['POST'])
 def submit_application(request):
