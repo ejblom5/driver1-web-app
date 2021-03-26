@@ -24,13 +24,22 @@ Endpoints:
   - PATCH (update a single driver)
     - request body: { "address" : "new address" }
 
-/api/sponsors
+/api/sponsors/
   - GET (get a list of all sponsors)
+    - You can also sort the list of sponsors by some value if you pass in the value you want to sort by in the url such as...
+      /api/sponsors/?sort=id (this will get the list of sponsors, and sort by the sponsor id)
+    - By default the sponsor list will be sorted by the sponsor name
 
 /api/sponsors/{sponsor_id}
   - GET (get a single sponsor based on the sponsor id passed into the route)
 
-/api/authenticate
+/api/authenticate/
   - POST (checks if the credentials passed into the request are authorized driver credentials)
     - request body: { "email": "example@example.com", "password": "example password" }
+
+/api/application/
+  - Get (retreives a list of all applications)
+  - POST (upload a new aplication)
+    - request body: {"driver_id": 1, "sponsor_id": 2}
+
 
