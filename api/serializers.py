@@ -5,7 +5,7 @@ from driver_app.models import *
 class SponsorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sponsor 
-        fields = ['sponsor_name','exchange_rate']
+        fields = ['id','sponsor_name','exchange_rate']
 
 class DriverSerializer(serializers.ModelSerializer):
     class Meta:
