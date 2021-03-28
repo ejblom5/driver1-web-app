@@ -66,10 +66,14 @@ def home_page(request):
 def profile_page(request):
     if request.method == 'POST':
         profile_data = request.POST.dict()
-        if(len(profile_data.get("sponsor_name"))>0):
+        if(profile_data.get("sponsor_name") is not None and len(profile_data.get("sponsor_name"))>0):
             Sponsor.objects.filter(user=request.user).update(sponsor_name=profile_data.get("sponsor_name"))
-        if(len(profile_data.get("exchange_rate"))> 0):
-                Sponsor.objects.filter(user=request.user).update(exchange_rate=int(profile_data.get("exchange_rate")))
+        if(profile_data.get("exchange_rate") is not None and len(profile_data.get("exchange_rate"))> 0):
+            Sponsor.objects.filter(user=request.user).update(exchange_rate=int(profile_data.get("exchange_rate")))
+        if(profile_data.get("application_requirements") is not None and len(profile_data.get("application_requirements")) > 0):
+            Sponsor.objects.filter(user=request.user).update(application_requirements=profile_data.get("application_requirements"))
+        if(profile_data.get("catalog") is not None and len(profile_data.get("catalog")) > 0):
+            Sponsor.objects.filter(user=request.user).update(catalog=profile_data.get("catalog"))
 
     sponsor = Sponsor.objects.get(user=request.user)
     return render(request = request, template_name = 'sponsor_app/profile.html', context={"sponsor":sponsor})
@@ -111,15 +115,20 @@ def edit_driver_view(request,id):
 
 @login_required(login_url='/sponsors/login')
 def catalog_view(request):
-    search_param = "shoes"
-    if request.method == 'POST':
-        data = request.POSt.dict()
-        search_param = data.search_param
-    route = request.build_absolute_uri('/api/')
-    catalog = requests.get(route+"catalog/"+search_param) 
-    catalog = catalog.json()
-    for i in catalog:
-        i["galleryURL"] = i["galleryURL"][0]
-        i["title"] = i["title"][0]
-    print(catalog[0]["galleryURL"][0])
-    return render(request = request, template_name = 'sponsor_app/catalog.html',context={"catalog":catalog})
+     search_param = "shoes"
+     if request.method == 'POST':
+         data = request.POST.dict()
+         search_param = data["search_param"]
+         print(search_param)
+     route = request.build_absolute_uri('/api/')
+     catalog = requests.get(route+"catalog/"+search_param)
+
+     if catalog.status_code == 200:
+        catalog = catalog.json()
+        for i in catalog:
+            i["galleryURL"] = i["galleryURL"][0]
+            i["title"] = i["title"][0]
+            i["price"] = i["sellingStatus"][0]["currentPrice"][0]["__value__"]
+     else:
+         catalog = []
+     return render(request = request, template_name = 'sponsor_app/catalog.html',context={"catalog":catalog})

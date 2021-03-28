@@ -6,10 +6,17 @@
   color: red;
 }
 
-.card {
+.card-hover {
   margin: auto;
 }
-.card:hover {
+.card-hover:hover {
   transform: scale(1.1);
 }
 
+body {
+  background-color: #C8C9C7;
+}
+
+.navbar {
+  background-color: #522D80;
+}

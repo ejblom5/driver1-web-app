@@ -1,16 +1,29 @@
 {% extends 'sponsor_app/base.html' %}
 
 {% block content %}
-<H1>My Profile</H1>
-<form action="/sponsors/profile" method="post">
-  {% csrf_token %}
-  <label for="sponsor_name">Name: {{sponsor.sponsor_name}}</label><br>
-  <input type="text" id="sponsor_name" name="sponsor_name"><br>
-  <label for="exchange_rate">Exchange Rate: {{sponsor.exchange_rate}}</label><br>
-  <input type="number" id="exchange_rate" name="exchange_rate"><br>
-  <label for="catalog">Catalog: {{sponsor.catalog}}</label><br>
-  <input type="text" id="catalog" name="catalog"><br>
-  <input type="submit" value="Submit">
-</form>
-
+<div class="container">
+  <div class="row"></div>
+    <div class="col-3">
+    </div>
+    <div class="col-6">
+      <H1>My Profile</H1>
+      <form action="/sponsors/profile" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="sponsor_name">Name: {{sponsor.sponsor_name}}</label><br>
+          <input class="form-control" type="text" id="sponsor_name" name="sponsor_name"><br>
+          <label for="exchange_rate">Exchange Rate: {{sponsor.exchange_rate}}</label><br>
+          <input class="form-control" type="number" id="exchange_rate" name="exchange_rate"><br>
+          <label for="application_requirements">Requirements: {{sponsor.application_requirements}}</label><br>
+          <input class="form-control" type="textarea" id="application_requirements" name="application_requirements"><br>
+          <label for="catalog">Catalog: {{sponsor.catalog}}</label><br>
+          <input class="form-control" type="text" id="catalog" name="catalog"><br>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>
+    </div>
+    <div class="col-3">
+    </div>
+  </div>
+</div>
 {% endblock %}
