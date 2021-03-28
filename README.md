@@ -14,7 +14,7 @@ base url: https://driver1-web-app.herokuapp.com
 
 Endpoints:
 
-/api/drivers
+/api/drivers/
   - GET (get a list of all drivers)
   - POST (create a new driver)
     - request body: { "email": "example@example.com", "password": "example password" }
