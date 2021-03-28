@@ -9,6 +9,8 @@
 # Database Things
 In order to run the django app locally you may have to change what the database is pointing at in the settings.py file. If you change it to run locally make sure you don't commit that change to the master branch since then heroku will try to use a local db instead of the installed postgres one.
 
+When you make changes to a model, you also need to migrate those changes to the corresponding database tables. This is done by runing `manage.py makemigrations` then `manage.py migrate`
+
 # API
 base url: https://driver1-web-app.herokuapp.com
 
