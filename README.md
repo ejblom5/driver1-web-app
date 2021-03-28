@@ -17,11 +17,11 @@ Endpoints:
 /api/drivers
   - GET (get a list of all drivers)
   - POST (create a new driver)
-    - request body: { "email": "example@example.com", "password": "example password", "name": "example name", "phone": "1111",      "address": "example address" }
+    - request body: { "email": "example@example.com", "password": "example password" }
 
 /api/drivers/{driver_id}
   - GET (get a single driver based on the driver id passed into the route)
-  - PATCH (update a single driver)
+  - PATCH (update a single driver) !! Not currently working
     - request body: { "address" : "new address" }
 
 /api/sponsors/
@@ -36,6 +36,7 @@ Endpoints:
 /api/authenticate/
   - POST (checks if the credentials passed into the request are authorized driver credentials)
     - request body: { "email": "example@example.com", "password": "example password" }
+    - request response: JSON for driver object upon sucessful authenticate
 
 /api/application/
   - Get (retreives a list of all applications)
