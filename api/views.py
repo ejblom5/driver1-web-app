@@ -78,10 +78,10 @@ def authenticate_driver(request):
         user = authenticate(username=data['email'], password=data['password'])
         if user is not None:
             print("is user")
-            driver = Driver.objects.filter(user=user.id)
+            driver = Driver.objects.get(user=user.id)
             if driver is not None:
                 serializer = DriverSerializer(driver)
-                return HttpResponse("good", status=200)
+                return JsonResponse(serializer.data, status=200)
         return HttpResponse("Unauthorized", status=400)
 
 
