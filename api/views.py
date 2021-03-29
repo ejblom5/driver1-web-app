@@ -85,7 +85,9 @@ def authenticate_driver(request):
                 return JsonResponse(serializer.data, status=200)
         return HttpResponse("Unauthorized", status=400)
     '''
-    return HttpResponse("Authorized", status=200)
+    driver = Driver.objects.get(id=1)
+    serializer = DriverSerializer(driver)
+    return JsonResponse(serializer.data, status=200)
 
 @api_view(['POST','GET'])
 def application(request):
