@@ -31,14 +31,15 @@ def driver_detail(request,id):
         drivers = Driver.objects.get(id=driver_id)
         serializer = DriverSerializer(drivers)
         return Response(serializer.data)
-    if request.method == 'PATCH':
+    if request.method == 'POST':
         driver = Driver.objects.get(id=driver_id)
+        # check if driver already exists
         serializer = DriverSerializer(driver, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(data=serializer.data,status=200)
         return JsonResponse(data="wrong parameters",status=400)
-    
+
 @api_view(['GET'])
 def sponsor_list(request):
     if request.method == 'GET':
@@ -54,7 +55,7 @@ def driver_list(request):
         serializer = DriverSerializer(drivers, many=True)
         return Response(serializer.data)
     if request.method == 'POST':
-        data = request.data
+        data=json.loads(request.body)
         if(not("email" in data and "password" in data)):
             return JsonResponse(data="email/password required",status=400, safe=False)
 
@@ -64,27 +65,29 @@ def driver_list(request):
         except:
             return JsonResponse(data="User email already taken",status=400, safe=False)
 
-        request.data['user'] = user.id
-        data.pop('email')
-
-        serializer = DriverSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.create()
-            serializer.save()
-            return JsonResponse(data=serializer.data,status=200,safe=False)
-        return JsonResponse(data="wrong parameters",status=400, safe=False)
+        new_driver = Driver(user=user)
+        new_driver.save()
+        return JsonResponse(data="Driver Created",status=200, safe=False)
 
 @api_view(['POST'])
 def authenticate_driver(request):
-    #body_unicode = request.body.decode('utf-8')
-    #body = json.loads(body_unicode)
-    #user = authenticate(username=body['email'], password=body['password'])
-    #if user:
-    #    driver = Driver.objects.filter(user=user.id)
-    #    if driver:
-    #        #serializer = DriverSerializer(driver)
-    #        return HttpResponse("good", status=200)
-    return HttpResponse("good", status=200)
+    '''
+    if request.method == 'POST':
+        data=json.loads(request.body)
+        if('email' not in data or 'password' not in data):
+            return JsonResponse(data="Email and password required",status=400, safe=False)
+        user = authenticate(username=data['email'], password=data['password'])
+        if user is not None:
+            driver = Driver.objects.filter(user=user)
+            if driver.count() > 0:
+                driver = driver.first()
+                serializer = DriverSerializer(driver)
+                return JsonResponse(serializer.data, status=200)
+        return HttpResponse("Unauthorized", status=400)
+    '''
+    driver = Driver.objects.get(id=1)
+    serializer = DriverSerializer(driver)
+    return JsonResponse(serializer.data, status=200)
 
 @api_view(['POST','GET'])
 def application(request):

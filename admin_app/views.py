@@ -79,11 +79,16 @@ def catalog_view(request):
 def profile_page(request):
     if request.method == 'POST':
         profile_data = request.POST.dict()
+<<<<<<< HEAD
         if(len(profile_data.get("name"))>0):
             Driver.objects.filter(user=request.user).update(sponsor_name=profile_data.get("sponsor_name"))
+=======
+        if(profile_data.get("name") != None and len(profile_data.get("name"))>0):
+            Driver.objects.filter(user=request.user).update(name=profile_data.get("name"))
+>>>>>>> 043b37aee022400a417ecc27af78577104bc96b0
 
-    sponsor = Sponsor.objects.get(user=request.user)
-    return render(request = request, template_name = 'admin_app/profile.html', context={"sponsor":sponsor})
+    admin = Driver.objects.get(user=request.user)
+    return render(request = request, template_name = 'admin_app/profile.html', context={"admin":admin})
 
 @login_required(login_url='/admins/login')
 def edit_driver_view(request,id):

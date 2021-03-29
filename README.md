@@ -9,28 +9,40 @@
 # Database Things
 In order to run the django app locally you may have to change what the database is pointing at in the settings.py file. If you change it to run locally make sure you don't commit that change to the master branch since then heroku will try to use a local db instead of the installed postgres one.
 
+When you make changes to a model, you also need to migrate those changes to the corresponding database tables. This is done by runing `manage.py makemigrations` then `manage.py migrate`
+
 # API
 base url: https://driver1-web-app.herokuapp.com
 
 Endpoints:
 
-/api/drivers
+/api/drivers/
   - GET (get a list of all drivers)
   - POST (create a new driver)
-    - request body: { "email": "example@example.com", "password": "example password", "name": "example name", "phone": "1111",      "address": "example address" }
+    - request body: { "email": "example@example.com", "password": "example password" }
 
 /api/drivers/{driver_id}
   - GET (get a single driver based on the driver id passed into the route)
-  - PATCH (update a single driver)
+  - PATCH (update a single driver) !! Not currently working
     - request body: { "address" : "new address" }
 
-/api/sponsors
+/api/sponsors/
   - GET (get a list of all sponsors)
+    - You can also sort the list of sponsors by some value if you pass in the value you want to sort by in the url such as...
+      /api/sponsors/?sort=id (this will get the list of sponsors, and sort by the sponsor id)
+    - By default the sponsor list will be sorted by the sponsor name
 
 /api/sponsors/{sponsor_id}
   - GET (get a single sponsor based on the sponsor id passed into the route)
 
-/api/authenticate
+/api/authenticate/
   - POST (checks if the credentials passed into the request are authorized driver credentials)
     - request body: { "email": "example@example.com", "password": "example password" }
+    - request response: JSON for driver object upon sucessful authenticate
+
+/api/application/
+  - Get (retreives a list of all applications)
+  - POST (upload a new aplication)
+    - request body: {"driver_id": 1, "sponsor_id": 2}
+
 
