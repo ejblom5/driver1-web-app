@@ -49,6 +49,12 @@ INSTALLED_APPS = [
     'admin_app',
     'home_app',
     'rest_framework',
+    'django_otp',
+    'django_otp.plugins.otp_static',
+    'django_otp.plugins.otp_totp',
+    'two_factor',
+    'otp_yubikey',
+
 ]
 AUTH_USER_MODEL = 'accounts.CustomUser'
 MIDDLEWARE = [
@@ -59,6 +65,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_otp.middleware.OTPMiddleware',
 ]
 
 ROOT_URLCONF = 'driver1_site.urls'
@@ -86,7 +94,7 @@ WSGI_APPLICATION = 'driver1_site.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 # FOR RUNNING LOCALLY
-'''
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -98,6 +106,7 @@ DATABASES = {
 '''
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+'''
 # Password validation
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
@@ -114,7 +123,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+#Two factor Authentication
+LOGIN_URL = 'two_factor:login'
+LOGIN_REDIRECT_URL = '/admin'
+TWO_FACTOR_TOTP_DIGIT = 6
+TWO_FACTOR_LOGIN_TIMEOUT = 600
+TWO_FACTOR_REMEMBER_COOKIE_AGE = None
+TWO_FACTOR_FORCE_OTP_ADMIN = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/

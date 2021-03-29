@@ -80,7 +80,7 @@ def profile_page(request):
     if request.method == 'POST':
         profile_data = request.POST.dict()
         if(len(profile_data.get("name"))>0):
-            Drivers.objects.filter(user=request.user).update(sponsor_name=profile_data.get("sponsor_name"))
+            Driver.objects.filter(user=request.user).update(sponsor_name=profile_data.get("sponsor_name"))
 
     sponsor = Sponsor.objects.get(user=request.user)
     return render(request = request, template_name = 'admin_app/profile.html', context={"sponsor":sponsor})
@@ -101,3 +101,46 @@ def edit_driver_view(request,id):
             Driver.objects.filter(id=driver_id).update(credits=int(profile_data.get("credits")))
     my_driver = Driver.objects.get(id=driver_id)
     return render(request = request, template_name = 'admin_app/edit_driver.html',context={"driver":my_driver})
+
+from django.contrib import admin
+from django.urls import path, include, re_path
+from two_factor.admin import AdminSiteOTPRequired
+from two_factor.urls import urlpatterns as tf_urls
+
+from django.conf import settings
+from django.http import  HttpResponseRedirect
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.views import redirect_to_login
+from django.shortcuts import resolve_url
+from django.urls import reverse
+from django.utils.http import is_safe_url
+from two_factor.admin import AdminSiteOTPRequired, AdminSiteOTPRequiredMixin
+
+
+class AdminSiteOTPRequiredMixinRedirSetup(AdminSiteOTPRequired):
+    def login(self, request, extra_context=None):
+        redirect_to = request.POST.get(
+            REDIRECT_FIELD_NAME, request.GET.get(REDIRECT_FIELD_NAME)
+        )
+        # For users not yet verified the AdminSiteOTPRequired.has_permission
+        # will fail. So use the standard admin has_permission check:
+        # (is_active and is_staff) and then check for verification.
+        # Go to index if they pass, otherwise make them setup OTP device.
+        if request.method == "GET" and super(
+            AdminSiteOTPRequiredMixin, self
+        ).has_permission(request):
+            # Already logged-in and verified by OTP
+            if request.user.is_verified():
+                # User has permission
+                index_path = reverse("admin:index", current_app=self.name)
+            else:
+                # User has permission but no OTP set:
+                index_path = reverse("two_factor:setup", current_app=self.name)
+            return HttpResponseRedirect(index_path)
+
+        if not redirect_to or not is_safe_url(
+            url=redirect_to, allowed_hosts=[request.get_host()]
+        ):
+            redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
+
+        return redirect_to_login(redirect_to)

@@ -9,7 +9,9 @@ from django.contrib import messages
 from driver_app.models import *
 from .models import *
 from api.views import * 
-
+from django.contrib.sites.shortcuts import get_current_site
+from django.dispatch import receiver
+from two_factor.signals import user_verified
 @login_required(login_url='/sponsors/login')
 def index(request):
   sponsor_user = Sponsor.objects.get(user=request.user)
@@ -123,3 +125,10 @@ def catalog_view(request):
         i["title"] = i["title"][0]
     print(catalog[0]["galleryURL"][0])
     return render(request = request, template_name = 'sponsor_app/catalog.html',context={"catalog":catalog})
+def my_view(request):
+    if request.user.is_verified():
+        # user logged in using two-factor
+        pass
+    else:
+        # user not logged in using two-factor
+        pass

@@ -1,6 +1,6 @@
 from django.urls import include, path
 from . import views
-
+from two_factor.urls import urlpatterns as tf_urls
 app_name = 'sponsor_app'
 urlpatterns = [
   path('',views.index, name='index'),
