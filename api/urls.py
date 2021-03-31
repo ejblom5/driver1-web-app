@@ -18,6 +18,7 @@ urlpatterns = [
     path('sponsors/', views.sponsor_list),
     path('sponsors/<int:pk>', views.SponsorDetail.as_view()),
     path('authenticate/', views.authenticate_driver),
+    path('fake_authenticate/', views.fake_authenticate),
     path('application/', views.application),
     path('catalog/<str:item>', views.catalog_search)
 ]

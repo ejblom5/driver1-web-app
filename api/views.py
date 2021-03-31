@@ -85,6 +85,12 @@ def driver_list(request):
         return JsonResponse(data={"response": serializer.data},status=200, safe=False)
 
 @api_view(['POST'])
+def fake_authenticate(request):
+    driver = Driver.objects.get(id=1)
+    serializer = DriverSerializer(driver)
+    return JsonResponse(data={"response":serializer.data}, status=200)
+
+@api_view(['POST'])
 def authenticate_driver(request):
     if request.method == 'POST':
         try:
@@ -101,11 +107,6 @@ def authenticate_driver(request):
                 serializer = DriverSerializer(driver)
                 return JsonResponse(data={"response": serializer.data}, status=200)
         return HttpResponse("Unauthorized", status=400)
-    '''
-    driver = Driver.objects.get(id=1)
-    serializer = DriverSerializer(driver)
-    return JsonResponse(data={"response":serializer.data}, status=200)
-    '''
 @api_view(['POST','GET'])
 def application(request):
     if request.method == 'POST':
