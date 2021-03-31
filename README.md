@@ -19,7 +19,14 @@ Endpoints:
 /api/drivers/
   - GET (get a list of all drivers)
   - POST (create a new driver)
-    - request body: { "email": "example@example.com", "password": "example password" }
+    - request body: { 
+      "email": "example@example.com" (required), 
+      "password": "example password" (required), 
+      "name": "some name", 
+      "qualifications": "some quals", 
+      "address": "some lane SC", 
+      "phone": "1212121212", 
+    }
 
 /api/drivers/{driver_id}
   - GET (get a single driver based on the driver id passed into the route)
