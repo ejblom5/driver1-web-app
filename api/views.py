@@ -86,7 +86,6 @@ def driver_list(request):
 
 @api_view(['POST'])
 def authenticate_driver(request):
-    '''
     if request.method == 'POST':
         data=json.loads(request.body)
         if('email' not in data or 'password' not in data):
@@ -97,13 +96,13 @@ def authenticate_driver(request):
             if driver.count() > 0:
                 driver = driver.first()
                 serializer = DriverSerializer(driver)
-                return JsonResponse(serializer.data, status=200)
+                return JsonResponse(data={"response": serializer.data}, status=200)
         return HttpResponse("Unauthorized", status=400)
     '''
     driver = Driver.objects.get(id=1)
     serializer = DriverSerializer(driver)
     return JsonResponse(data={"response":serializer.data}, status=200)
-
+    '''
 @api_view(['POST','GET'])
 def application(request):
     if request.method == 'POST':
