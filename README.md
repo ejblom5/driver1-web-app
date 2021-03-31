@@ -14,6 +14,9 @@ When you make changes to a model, you also need to migrate those changes to the 
 # API
 base url: https://driver1-web-app.herokuapp.com
 
+All responses should be returned as {"resposne": response_body}
+  - Ex: retreiving one driver would return { "response": {"id" : 1, "name" : "driver bill", ...} }
+
 Endpoints:
 
 /api/drivers/
