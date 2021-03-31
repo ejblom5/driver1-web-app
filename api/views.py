@@ -31,22 +31,28 @@ def driver_detail(request,id):
         drivers = Driver.objects.get(id=driver_id)
         serializer = DriverSerializer(drivers)
         return Response(serializer.data)
-    if request.method == 'POST':
-        driver = Driver.objects.get(id=driver_id)
-        # check if driver already exists
-        serializer = DriverSerializer(driver, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(data=serializer.data,status=200)
-        return JsonResponse(data="wrong parameters",status=400)
-
+    if request.method == 'PATCH':
+        data = json.loads(request.body)
+        updated_driver = Driver.objects.get(id=driver_id)
+        if("phone" in data):
+            updated_driver.phone = data['phone']
+        if("qualifications" in data):
+            updated_driver.qualifications = data['qualifications']
+        if("name" in data):
+            updated_driver.name = data['name']
+        if("address" in data):
+            updated_driver.address = data['address']
+        updated_driver.save()
+        serializer = DriverSerializer(updated_driver)
+        return JsonResponse(data={"response":serializer.data}, status=200)
 @api_view(['GET'])
 def sponsor_list(request):
     if request.method == 'GET':
         sort_param = request.GET.get('sort','sponsor_name')
         sponsors = Sponsor.objects.all().order_by(sort_param)
         serializer = SponsorSerializer(sponsors, many=True)
-        return Response(serializer.data)
+        json_data = {"response": serializer.data}
+        return Response(json_data)
 
 @api_view(['GET','POST'])
 def driver_list(request):
@@ -64,8 +70,17 @@ def driver_list(request):
             user = CustomUser.objects.create_user(email=data['email'], password=data['password'])
         except:
             return JsonResponse(data="User email already taken",status=400, safe=False)
-
+        
         new_driver = Driver(user=user)
+        if("phone" in data):
+            new_driver.phone = data['phone']
+        if("qualifications" in data):
+            new_driver.qualifications = data['qualifications']
+        if("name" in data):
+            new_driver.name = data['name']
+        if("address" in data):
+            new_driver.address = data['address']
+
         new_driver.save()
         return JsonResponse(data="Driver Created",status=200, safe=False)
 

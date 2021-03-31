@@ -11,6 +11,10 @@ class DriverSerializer(serializers.ModelSerializer):
     class Meta:
         model = Driver 
         fields = ['id','name','address','sponsor','phone','credits']
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name',instance.name)
+        instance.address = validated_data.get('address',instance.address)
+        instance.name = validated_data.get('name',instance.name)
 
 class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
