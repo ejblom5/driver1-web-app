@@ -51,8 +51,7 @@ def sponsor_list(request):
         sort_param = request.GET.get('sort','sponsor_name')
         sponsors = Sponsor.objects.all().order_by(sort_param)
         serializer = SponsorSerializer(sponsors, many=True)
-        json_data = {"response": serializer.data}
-        return Response(json_data)
+        return Response(data={"response": serializer.data})
 
 @api_view(['GET','POST'])
 def driver_list(request):
@@ -82,7 +81,8 @@ def driver_list(request):
             new_driver.address = data['address']
 
         new_driver.save()
-        return JsonResponse(data="Driver Created",status=200, safe=False)
+        serializer = DriverSerializer(new_driver)
+        return JsonResponse(data={"response": serializer.data},status=200, safe=False)
 
 @api_view(['POST'])
 def authenticate_driver(request):
@@ -102,7 +102,7 @@ def authenticate_driver(request):
     '''
     driver = Driver.objects.get(id=1)
     serializer = DriverSerializer(driver)
-    return JsonResponse(serializer.data, status=200)
+    return JsonResponse(data={"response":serializer.data}, status=200)
 
 @api_view(['POST','GET'])
 def application(request):
@@ -114,22 +114,22 @@ def application(request):
         driver = Driver.objects.filter(id=data["driver_id"])
         sponsor = Sponsor.objects.filter(id=data["sponsor_id"])
         if driver.count() == 0:
-            return JsonResponse(data="not a valid driver",status=400, safe=False)
+            return JsonResponse(data={"response": "not a valid driver"},status=400, safe=False)
         elif sponsor.count() == 0:
-            return JsonResponse(data="not a valid sponsor",status=400, safe=False)
+            return JsonResponse(data={"response": "not a valid sponsor"},status=400, safe=False)
         driver = driver.first()
         sponsor = sponsor.first()
         existing_application = Application.objects.filter(driver=driver,sponsor=sponsor)
         if(existing_application.count() == 0):
             app = Application(driver=driver,sponsor=sponsor)
             app.save()
-            return JsonResponse(data="Application submitted",status=200, safe=False)
+            return JsonResponse(data={"response": "Application submitted"},status=200, safe=False)
         else:
-            return JsonResponse(data="application already exists",status=400, safe=False)
+            return JsonResponse(data={"response": "Application already exists"},status=400, safe=False)
     if request.method == 'GET':
         apps = Application.objects.all()
         serializer = ApplicationSerializer(apps, many=True)
-        return Response(serializer.data)
+        return Response(data={"response": serializer.data})
 
 @api_view(['GET'])
 def catalog_search(request,item):
