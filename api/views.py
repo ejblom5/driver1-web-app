@@ -87,9 +87,12 @@ def driver_list(request):
 @api_view(['POST'])
 def authenticate_driver(request):
     if request.method == 'POST':
-        data=json.loads(request.body)
+        try:
+            data=json.loads(request.body)
+        except:
+            return JsonResponse(data={"response": "Bad request data"},status=400)
         if('email' not in data or 'password' not in data):
-            return JsonResponse(data="Email and password required",status=400, safe=False)
+            return JsonResponse(data={"response": "Email and password required"},status=400, safe=False)
         user = authenticate(username=data['email'], password=data['password'])
         if user is not None:
             driver = Driver.objects.filter(user=user)
