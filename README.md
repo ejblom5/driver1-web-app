@@ -30,8 +30,13 @@ Endpoints:
 
 /api/drivers/{driver_id}
   - GET (get a single driver based on the driver id passed into the route)
-  - PATCH (update a single driver) !! Not currently working
-    - request body: { "address" : "new address" }
+  - PATCH (update a single driver)
+    - request body: { 
+      "name": "some name", 
+      "qualifications": "some quals", 
+      "address": "some lane SC", 
+      "phone": "1212121212", 
+    }
 
 /api/sponsors/
   - GET (get a list of all sponsors)
