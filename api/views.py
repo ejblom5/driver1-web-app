@@ -11,6 +11,7 @@ from driver_app.models import *
 from accounts.models import CustomUser
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
+from django.core import serializers
 import requests
 import json
 
@@ -107,6 +108,7 @@ def authenticate_driver(request):
                 serializer = DriverSerializer(driver)
                 return JsonResponse(data={"response": serializer.data}, status=200)
         return HttpResponse("Unauthorized", status=400)
+
 @api_view(['POST','GET'])
 def application(request):
     if request.method == 'POST':
@@ -118,7 +120,7 @@ def application(request):
         sponsor = Sponsor.objects.filter(id=data["sponsor_id"])
         if driver.count() == 0:
             return JsonResponse(data={"response": "not a valid driver"},status=400, safe=False)
-        elif sponsor.count() == 0:
+        if sponsor.count() == 0:
             return JsonResponse(data={"response": "not a valid sponsor"},status=400, safe=False)
         driver = driver.first()
         sponsor = sponsor.first()
