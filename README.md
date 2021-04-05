@@ -60,4 +60,7 @@ Endpoints:
   - POST (upload a new aplication)
     - request body: {"driver_id": 1, "sponsor_id": 2}
 
+/api/catalog/{item}
+  - GET (searches the api catalog by the item string supplied) 
+
 
