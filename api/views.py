@@ -43,6 +43,9 @@ def driver_detail(request,id):
             updated_driver.name = data['name']
         if("address" in data):
             updated_driver.address = data['address']
+        if("gender" in data and data['gender'] in ["M","F","O"]):
+            updated_driver.gender = data['gender']
+
         updated_driver.save()
         serializer = DriverSerializer(updated_driver)
         return JsonResponse(data={"response":serializer.data}, status=200)
@@ -139,7 +142,13 @@ def application(request):
 @api_view(['GET'])
 def catalog_search(request,item):
     response = requests.get("https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=ErikBlom-Software-PRD-2dc743efd-8d8e7010&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords="+item+"&paginationInput.entriesPerPage=15&GLOBAL-ID=EBAY-US&siteid=0")
-    catalog = response.json()
-    catalog = catalog["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"]
-    return Response(catalog)
+    raw_catalog = response.json()
+    raw_catalog = raw_catalog["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"]
+    refined_catalog = [None] * len(raw_catalog)
+
+    for i in range(len(raw_catalog)):
+        c = raw_catalog[i]
+        r = {"name": c['title'][0], "id": c['itemId'][0], "imageURL":c['galleryURL'][0], "price":c['sellingStatus'][0]['currentPrice'][0]['__value__'], "location": c['location'][0]}
+        refined_catalog[i] = r
+    return Response({"response": refined_catalog})
 

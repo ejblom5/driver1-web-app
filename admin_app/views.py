@@ -67,10 +67,6 @@ def catalog_view(request):
 
      if catalog.status_code == 200:
         catalog = catalog.json()
-        for i in catalog:
-            i["galleryURL"] = i["galleryURL"][0]
-            i["title"] = i["title"][0]
-            i["price"] = i["sellingStatus"][0]["currentPrice"][0]["__value__"]
      else:
          catalog = []
      return render(request = request, template_name = 'admin_app/catalog.html',context={"catalog":catalog})

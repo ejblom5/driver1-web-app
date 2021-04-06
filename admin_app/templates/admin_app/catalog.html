@@ -35,10 +35,10 @@
         {% for item in catalog %}
         <div class="col-4">
           <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src={{item.galleryURL}} alt="Card image cap">
+            <img class="card-img-top" src={{item.imageURL}} alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">${{item.price}}</h5>
-              <p class="card-text">{{item.title}}</p>
+              <p class="card-text">{{item.name}}</p>
               <a href="/sponsors" class="btn btn-primary button-clem">View</a>
             </div>
           </div>
