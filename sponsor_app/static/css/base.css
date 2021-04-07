@@ -2,9 +2,9 @@
   margin: 20px;
 }
 
-.card:hover {
+/*.card:hover {
   transform: scale(1.1);
-}
+}*/
 
 .custom-nav {
   background-color: #818181;
@@ -37,6 +37,6 @@
 .button-clem {
   background-color: #F56600;
 }
-body{
+.body{
   background-color: #C8C9C7;
 }
