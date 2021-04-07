@@ -6,17 +6,28 @@
   color: red;
 }
 
+.purp {
+  background-color: #522D80;
+  color:#FFFFFF
+}
+
 .card-hover {
   margin: auto;
 }
 .card-hover:hover {
-  transform: scale(1.1);
+  transform: scale(0.5);
+  
 }
-
-body {
-  background-color: #C8C9C7;
+.card-body{
+  width: 18rem;
+}
+.body {
+  background-color: #F56600;
 }
 
 .navbar {
   background-color: #522D80;
+}
+.container-fullwidth {
+  background-color: black;
 }
