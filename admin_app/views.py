@@ -67,6 +67,7 @@ def catalog_view(request):
 
      if catalog.status_code == 200:
         catalog = catalog.json()
+        catalog = catalog['response']
      else:
          catalog = []
      return render(request = request, template_name = 'admin_app/catalog.html',context={"catalog":catalog})

@@ -75,6 +75,9 @@ def profile_page(request):
         if(profile_data.get("catalog") is not None and len(profile_data.get("catalog")) > 0):
             Sponsor.objects.filter(user=request.user).update(catalog=profile_data.get("catalog"))
 
+        if(profile_data.get("catalog_params") is not None and len(profile_data.get("catalog_params")) > 0):
+            Sponsor.objects.filter(user=request.user).update(catalog_params=profile_data.get("catalog_params"))
+
     sponsor = Sponsor.objects.get(user=request.user)
     return render(request = request, template_name = 'sponsor_app/profile.html', context={"sponsor":sponsor})
 
@@ -125,6 +128,8 @@ def catalog_view(request):
 
      if catalog.status_code == 200:
         catalog = catalog.json()
+        catalog = catalog['response']
+        print(catalog)
      else:
          catalog = []
      return render(request = request, template_name = 'sponsor_app/catalog.html',context={"catalog":catalog})

@@ -14,6 +14,7 @@ from django.contrib.auth import authenticate
 from django.core import serializers
 import requests
 import json
+import math
 
 class CatalogViewSet(viewsets.ViewSet):
     def list(self,request):
@@ -45,10 +46,12 @@ def driver_detail(request,id):
             updated_driver.address = data['address']
         if("gender" in data and data['gender'] in ["M","F","O"]):
             updated_driver.gender = data['gender']
-
+        if("age" in data):
+            updated_driver.age = data['age']
         updated_driver.save()
         serializer = DriverSerializer(updated_driver)
         return JsonResponse(data={"response":serializer.data}, status=200)
+
 @api_view(['GET'])
 def sponsor_list(request):
     if request.method == 'GET':
@@ -94,6 +97,20 @@ def fake_authenticate(request):
     serializer = DriverSerializer(driver)
     return JsonResponse(data={"response":serializer.data}, status=200)
 
+@api_view(['GET'])
+def get_catalog_params(request,id):
+    if request.method == 'GET':
+        sponsor = Sponsor.objects.filter(id=id)
+        if sponsor.count() == 0:
+            return Response(data={"response": "not a valid sponsor id"}, status=400)
+        sponsor = sponsor.first()
+        params_string = sponsor.catalog_params
+        params_string = params_string.replace(", ",",")
+        params_string = params_string.replace(" ,",",")
+        params_list = params_string.split(",")
+
+        return Response(data={"response": params_list},status=200)
+
 @api_view(['POST'])
 def authenticate_driver(request):
     if request.method == 'POST':
@@ -138,6 +155,40 @@ def application(request):
         apps = Application.objects.all()
         serializer = ApplicationSerializer(apps, many=True)
         return Response(data={"response": serializer.data})
+
+@api_view(['POST'])
+def purchase_item(request):
+    if request.method == 'POST':
+        data=json.loads(request.body)
+        if('driver_id' not in data or 'item_id' not in data or 'cost' not in data):
+            return JsonResponse(data="driver_id, sponsor_id, and cost are required",status=400, safe=False)
+
+        # check if application exists
+        driver = Driver.objects.filter(id=data["driver_id"])
+        if driver.count() == 0:
+            return JsonResponse(data={"response": "not a valid driver"},status=400, safe=False)
+       
+        # check if driver has a sponsor 
+        driver = driver.first()
+        sponsor = Sponsor.objects.filter(id=driver.sponsor)
+        if sponsor.count() == 0:
+            return JsonResponse(data={"response": "driver has no sponsor"},status=400, safe=False)
+        sponsor = sponsor.first()
+
+        # check if driver can afford item
+        available_credits = driver.credits
+        # convert item cost from string to float and then into 
+        # number of credits based on exchange rate rounded up
+        item_cost = math.ceil((sponsor.exchange_rate)*float(data['cost']))
+
+        if(item_cost > available_credits): 
+            return JsonResponse(data={"response": "driver doesn't have enough credits"},status=400, safe=False)
+        else:
+            driver.credits = available_credits-item_cost
+            new_purchase = Purchases(driver=driver,cost=data['cost'],item_id=data['item_id'])
+            driver.save()
+            new_purchase.save()
+            return JsonResponse(data={"response": "purchases item"},status=200, safe=False)
 
 @api_view(['GET'])
 def catalog_search(request,item):
