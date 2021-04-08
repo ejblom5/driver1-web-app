@@ -11,7 +11,7 @@ class DriverSerializer(serializers.ModelSerializer):
     #sponsor = SponsorSerializer(read_only = True)
     class Meta:
         model = Driver 
-        fields = ['id','name','address','sponsor','phone','credits','gender']
+        fields = ['id','name','address','sponsor','phone','credits','driver_gender']
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name',instance.name)
         instance.address = validated_data.get('address',instance.address)

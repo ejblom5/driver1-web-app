@@ -44,8 +44,8 @@ def driver_detail(request,id):
             updated_driver.name = data['name']
         if("address" in data):
             updated_driver.address = data['address']
-        if("gender" in data and data['gender'] in ["M","F","O"]):
-            updated_driver.gender = data['gender']
+        if("driver_gender" in data and data['driver_gender'] in ["M","F","O"]):
+            updated_driver.driver_gender = data['driver_gender']
         if("age" in data):
             updated_driver.age = data['age']
         updated_driver.save()
@@ -93,6 +93,7 @@ def driver_list(request):
 
 @api_view(['POST'])
 def fake_authenticate(request):
+    #
     driver = Driver.objects.get(id=1)
     serializer = DriverSerializer(driver)
     return JsonResponse(data={"response":serializer.data}, status=200)
