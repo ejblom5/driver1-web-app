@@ -11,6 +11,7 @@ class Driver(models.Model):
   qualifications = models.CharField(max_length=500, blank=True)
   name = models.CharField(max_length=25)
   gender = models.CharField(max_length=1,default='O')#should be M,F,O
+  driver_gender = models.CharField(max_length=1,default='O')#should be M,F,O
   address = models.CharField(max_length=50)
   credits = models.IntegerField(default=0)
   age = models.IntegerField(default=20)
