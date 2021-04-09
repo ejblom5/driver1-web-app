@@ -3,7 +3,7 @@
 }
 
 .card:hover {
-  transform: scale(1.1);
+  transform: scale(1);
 }
 
 .custom-nav {
@@ -17,7 +17,7 @@
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #333333;
+  background-color: #522D80;
   overflow-x: hidden;
   padding-top: 20px;
 }
@@ -26,17 +26,23 @@
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
+  color: #FFFFFF;
   display: block;
 }
 
 .sidenav a:hover {
-  color: #B94700;
+  color: #F56600;
 }
 
 .button-clem {
+  background-color: #522D80;
+  color: #FFFFFF;
+}
+.button-clem:hover {
   background-color: #F56600;
+  color: #FFFFFF;
 }
 body{
-  background-color: #C8C9C7;
+  background-color: #F56600;
+ 
 }

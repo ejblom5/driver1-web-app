@@ -1,15 +1,21 @@
 {% extends 'admin_app/base.html' %}
 {% block content %}
 <H1>Catalog</H1>
-      
-      <div class="container">
+      <head>
+        <style>.button-clem:hover {
+        
+        background-color: #F56600;}
+        
+        </style>
+      </head>
+      <!--<div class="container">-->
         <div class="row">
           <div class="col-12">
           <nav class="navbar navbar-expand-lg navbar-light bg-light custom-nav">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                  <a class="nav-link" href="#">Popular</span></a>
+                  <a class="nav-link" href="#">Popular</a>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -31,19 +37,21 @@
           </nav>
         </div>
       </div>
-      <div class="row">
+      <div class="row row-cols-1 row-cols-md-4" style= "color: #522D80;">
+        
         {% for item in catalog %}
         <div class="col-4">
-          <div class="card" style="width: 18rem;">
+          <div class="card">
             <img class="card-img-top" src={{item.imageURL}} alt="Card image cap">
-            <div class="card-body">
+            <div class="card-body ">
               <h5 class="card-title">${{item.price}}</h5>
               <p class="card-text">{{item.name}}</p>
-              <a href="/sponsors" class="btn btn-primary button-clem">View</a>
+              <a href="/sponsors" class="btn  button-clem" style="background-color: #522D80;color: #FFFFFF;" >View</a>
             </div>
           </div>
         </div>
+      
         {% endfor %}
       </div>
-    </div>
+    
   {% endblock %}
