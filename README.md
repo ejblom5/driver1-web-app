@@ -66,4 +66,8 @@ Endpoints:
 /api/catalog/{item}
   - GET (searches the api catalog by the item string supplied) 
 
+/api/purchase/
+  - POST (upload a new aplication)
+    - request body: { "driver_id": 1, "item_id": 2, "cost": "9.65" }
+
 
