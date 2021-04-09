@@ -13,8 +13,7 @@ from api.views import *
 @login_required(login_url='/sponsors/login')
 def index(request):
   sponsor_user = Sponsor.objects.filter(user=request.user)
-  my_drivers = Driver.objects.filter(sponsor=sponsor_user)
-  return render(request = request, template_name = 'sponsor_app/index.html', context={"my_drivers":my_drivers.all()})
+  return render(request = request, template_name = 'sponsor_app/index.html')
 
 def login_view(request):
   # if not logged in already
