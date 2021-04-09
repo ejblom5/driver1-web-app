@@ -60,7 +60,7 @@ Endpoints:
   - POST (upload a new aplication)
     - request body: {"driver_id": 1, "sponsor_id": 2}
 
-/api/catalog/{sponsor_id}
+/api/catalog_params/{sponsor_id}
   - GET (retrieves a list of parameters the driver can search for based on what the sponsor has set) 
 
 /api/catalog/{item}
