@@ -12,7 +12,7 @@ from api.views import *
 
 @login_required(login_url='/sponsors/login')
 def index(request):
-  sponsor_user = Sponsor.objects.get(user=request.user)
+  sponsor_user = Sponsor.objects.filter(user=request.user)
   my_drivers = Driver.objects.filter(sponsor=sponsor_user)
   return render(request = request, template_name = 'sponsor_app/index.html', context={"my_drivers":my_drivers})
 
@@ -22,17 +22,18 @@ def login_view(request):
       # check if loggin form was submitted
       form = AuthenticationForm()
       if request.method == 'POST':
-        username = request.POST['username']
+        email = request.POST['username']
         password = request.POST['password']
-
+        print(password)
+        print(email)
         # first check if the credentials belong to a user
-        auth_user = authenticate(request, username=username, password=password)
+        auth_user = authenticate(request, email=email, password=password)
+        print(auth_user)
         # then check if the user is a sponsor user
-        sponsor_user = Sponsor.objects.filter(user=auth_user)
         if auth_user is None:
             messages.add_message(request, messages.ERROR, 'No account matching the provided credentials')
             return render(request = request, template_name = 'sponsor_app/login.html', context={"form":form})
-        elif not sponsor_user:
+        elif not Sponsor.objects.filter(user=auth_user):
             messages.add_message(request, messages.ERROR, 'Account not authorized to view the sponsor pages')
             return render(request = request, template_name = 'sponsor_app/login.html', context={"form":form})
         login(request, auth_user)
@@ -53,12 +54,14 @@ def logout_view(request):
 
 @login_required(login_url='/sponsors/login')
 def my_drivers_view(request):
+  print(request.user)
   sponsor_user = Sponsor.objects.get(user=request.user)
   my_drivers = Driver.objects.filter(sponsor=sponsor_user)
   return render(request = request, template_name = 'sponsor_app/my_drivers.html', context={"my_drivers":my_drivers})
 
 @login_required(login_url='/sponsors/login')
 def home_page(request):
+    logoug(request)
     template = loader.get_template('sponsor_app/home.html')
     return HttpResponse(template.render())
 

@@ -52,14 +52,35 @@ def driver_detail(request,id):
         serializer = DriverSerializer(updated_driver)
         return JsonResponse(data={"response":serializer.data}, status=200)
 
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def sponsor_list(request):
     if request.method == 'GET':
         sort_param = request.GET.get('sort','sponsor_name')
         sponsors = Sponsor.objects.all().order_by(sort_param)
         serializer = SponsorSerializer(sponsors, many=True)
         return Response(data={"response": serializer.data})
+    if request.method == 'POST':
+        data=json.loads(request.body)
+        if(not("email" in data and "password" in data)):
+            return JsonResponse(data="email/password required",status=400, safe=False)
 
+        # create user associated with the driver
+        try:
+            user = CustomUser.objects.create_user(email=data['email'], password=data['password'])
+        except:
+            return JsonResponse(data="User email already taken",status=400, safe=False)
+        
+        new_sponsor = Sponsor(user=user)
+        if("sponsor_name" in data):
+            new_sponsor.sponsor_name = data['sponsor_name']
+        if("application_requirements" in data):
+            new_sponsor.application_requirements = data['application_requirements']
+        if("catalog_params" in data):
+            new_sponsor.catalog_params = data['catalog_params']
+
+        new_sponsor.save()
+        serializer = SponsorSerializer(new_sponsor)
+        return JsonResponse(data={"response": serializer.data},status=200, safe=False)
 @api_view(['GET','POST'])
 def driver_list(request):
     if request.method == 'GET':
@@ -171,7 +192,7 @@ def purchase_item(request):
        
         # check if driver has a sponsor 
         driver = driver.first()
-        sponsor = Sponsor.objects.filter(id=driver.sponsor)
+        sponsor = Sponsor.objects.filter(id=driver.sponsor.id)
         if sponsor.count() == 0:
             return JsonResponse(data={"response": "driver has no sponsor"},status=400, safe=False)
         sponsor = sponsor.first()

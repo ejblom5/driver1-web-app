@@ -21,5 +21,6 @@ urlpatterns = [
     path('fake_authenticate/', views.fake_authenticate),
     path('application/', views.application),
     path('catalog/<str:item>', views.catalog_search),
+    path('purchase/', views.purchase_item),
     path('catalog_params/<int:id>', views.get_catalog_params)
 ]
