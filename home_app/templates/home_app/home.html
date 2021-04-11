@@ -4,17 +4,44 @@
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <style>
+          ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+            position: -webkit-sticky; /* Safari */
+            position: sticky;
+            top: 0;
+            z-index: 100000;
+          }
+          
+          li {
+            float: left;
+          }
+          
+          li{
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 150%;
+          }
+          
+          li a:hover {
+            background-color: #111;
+          }
+          </style>
     </head>
     <body>
       
       <div class="container-fullwidth">
         <!-- As a heading -->
-        <nav class="navbar navbar-light bg-light">
-          <a class="navbar-brand">
-            <img src="{% static 'icon.png' %}">
-            Driver One
-          </a>
-        </nav>
+        <ul>
+          <li>Driver One</li>
+        </ul>
 
         <div class="row">
 
@@ -52,11 +79,41 @@
           <div class="col-8">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">What Do We Stand For?</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.asdfasdffasdflsorefandfasdfasdfa</p>
+                <h5 class="card-title">What is Driver One?</h5>
+                <p class="card-text"> Our services offer technologies technologies to our client sponsors that allow them to manage their drivers in a pain free and seamless way. Sponsors can utilize our fast and response web site in order to 
+                  view their current drivers, view and accept driver applications, and control the product catalog made vailable to their drivers. Drivers also have the ability to login through our mobile app, with this app they can look 
+                  for sponsors to apply to, apply to them, manage their credits, which are gained through rewards with their sponsor, and use their credits to purchase items from their sponsor's catalog. The web service and mobile app stay up to date
+                  with eachother, so sponsors can keep keep in touch with their drivers, and drivers with their sponsors.
+                </p>
               </div>
             </div>
-          </div>
+            </div>
+            <div class="col-4"></div>
+        
+            <div class="col-4"></div>
+            <div class="col-8">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">What Do We Stand For?</h5>
+                  <p class="card-text">We strive to produce a reliable service for drivers and sponsors. We do this by utilizing new technoligies that keep our systems up to date, fast, and efficient. Our services are also easily maintainable
+                    by all of our customers, and we pride ourselves in consistency.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-8">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Our Technologies</h5>
+                <p class="card-text"> Our web server and databases are hosted on Heroku, which is one of the most reliable and popular cloud platform services in the industry and makes maintaining and improving our web services easy and
+                  seamless. Our web server itself is built using the Django framework, which uses Python. Django was the perfect fit for our company since it specializes in modularity, allowing us to reuse code and functionality accross the
+                  application and allowed us to plug and play different code.
+                </p>
+              </div>
+            </div>
+            </div>
+
         </div>
       </div>
 
