@@ -1,17 +1,7 @@
 {% extends 'sponsor_app/base.html' %}
 
 {% block content %}
-<H1>Driver Credits</H1>
-
-{% for driver in my_drivers %}
-<div class="progress">
-  <div class="progress-bar" role="progressbar" aria-valuenow="70"
-  aria-valuemin="0" aria-valuemax="100" style="width:{{driver.credits}}%">
-    {{driver.name}}: {{driver.credits}}
-  </div>
-</div>
-</br>
-{% endfor %}
-
-<H1>Time With Sponsor</H1>
+<H1>Sponsor: {{sponsor.sponsor_name}}</H1>
+<H3>Number of Drivers: {{driver_count}}</H1>
+<H3>Pending Applications: {{application_count}}</H1>
 {% endblock %}

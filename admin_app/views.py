@@ -31,7 +31,7 @@ def login_view(request):
         if auth_user is None:
             messages.add_message(request, messages.ERROR, 'No account matching the provided credentials')
             return render(request = request, template_name = 'admin_app/login.html', context={"form":form})
-        elif not admin:
+        elif admin.count() == 0:
             messages.add_message(request, messages.ERROR, 'Account not authorized to view the admin pages')
             return render(request = request, template_name = 'admin_app/login.html', context={"form":form})
         login(request, auth_user)
