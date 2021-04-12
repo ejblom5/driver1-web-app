@@ -107,6 +107,10 @@ def driver_list(request):
             new_driver.name = data['name']
         if("address" in data):
             new_driver.address = data['address']
+        if("driver_gender" in data and data['driver_gender'] in ["M","F","O"]):
+            new_driver.driver_gender = data['driver_gender']
+        if("age" in data):
+            new_driver.age = data['age']
 
         new_driver.save()
         serializer = DriverSerializer(new_driver)
