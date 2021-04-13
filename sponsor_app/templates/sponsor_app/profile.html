@@ -5,24 +5,29 @@
   <div class="row"></div>
     <div class="col-3">
     </div>
+    
     <div class="col-6">
-      <H1>My Profile</H1>
-      <form action="/sponsors/profile" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="sponsor_name">Name: {{sponsor.sponsor_name}}</label><br>
-          <input class="form-control" type="text" id="sponsor_name" name="sponsor_name"><br>
-          <label for="exchange_rate">Exchange Rate: {{sponsor.exchange_rate}}</label><br>
-          <input class="form-control" type="number" id="exchange_rate" name="exchange_rate"><br>
-          <label for="application_requirements">Requirements: {{sponsor.application_requirements}}</label><br>
-          <input class="form-control" type="textarea" id="application_requirements" name="application_requirements"><br>
-          <label for="catalog_params">Catalog Parameters: {{sponsor.catalog_params}}</label><br>
-          <input class="form-control" type="textarea" id="catalog_params" placeholder="comma separated list of search terms" name="catalog_params"><br>
-          <label for="catalog">Catalog: {{sponsor.catalog}}</label><br>
-          <input class="form-control" type="text" id="catalog" name="catalog"><br>
+        <div class="card card-login">
+          <div class="card-body">
+            <h5 class="card-title">My Profile</h5>
+            <form action="/sponsors/profile" method="post">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="sponsor_name">Name: {{sponsor.sponsor_name}}</label><br>
+                <input class="form-control" type="text" id="sponsor_name" name="sponsor_name"><br>
+                <label for="exchange_rate">Exchange Rate: {{sponsor.exchange_rate}}</label><br>
+                <input class="form-control" type="number" id="exchange_rate" name="exchange_rate"><br>
+                <label for="application_requirements">Requirements: {{sponsor.application_requirements}}</label><br>
+                <input class="form-control" type="textarea" id="application_requirements" name="application_requirements"><br>
+                <label for="catalog_params">Catalog Parameters: {{sponsor.catalog_params}}</label><br>
+                <input class="form-control" type="textarea" id="catalog_params" placeholder="comma separated list of search terms" name="catalog_params"><br>
+                <label for="catalog">Catalog: {{sponsor.catalog}}</label><br>
+                <input class="form-control" type="text" id="catalog" name="catalog"><br>
+              </div>
+              <button type="submit" class="button-edit-driver">Update</button>
+            </form>
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary">Update</button>
-      </form>
     </div>
     <div class="col-3">
     </div>

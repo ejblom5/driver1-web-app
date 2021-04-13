@@ -1,33 +1,37 @@
 {% extends 'sponsor_app/base.html' %}
 
 {% block content %}
-<H1>Applications</H1>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Qualifications</th>
-      <th scope="col">Created At</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for application in my_applications %}
-    <tr>
-      <th scope="row">{{application.id}}</th>
-      <td>{{application.driver.name}}</td>
-      <td>{{application.driver.qualifications}}</td>
-      <td>{{application.created_at}}</td>
-      <td>
-      <form action="/sponsors/get_drivers" method="post">
-        {% csrf_token %}
-        <input type="hidden" id="new_driver_id" name="new_driver_id" value={{application.driver.id}}>
-        <input type="hidden" id="application_id" name="application_id" value={{application.id}}>
-        <input type="submit" value="Accept">
-      </form>
-      </td>
-    </tr>
-  {% endfor %}
-  </tbody>
-</table>
+<div class="card card-login">
+  <div class="card-body">
+    <h5 class="card-title">Applications</h5>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Qualifications</th>
+          <th scope="col">Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for application in my_applications %}
+        <tr>
+          <th scope="row">{{application.id}}</th>
+          <td>{{application.driver.name}}</td>
+          <td>{{application.driver.qualifications}}</td>
+          <td>{{application.created_at}}</td>
+          <td>
+          <form action="/sponsors/get_drivers" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="new_driver_id" name="new_driver_id" value={{application.driver.id}}>
+            <input type="hidden" id="application_id" name="application_id" value={{application.id}}>
+            <input type="submit" value="Accept">
+          </form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}
