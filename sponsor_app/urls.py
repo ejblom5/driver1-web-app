@@ -1,4 +1,5 @@
 from django.urls import include, path
+from django.conf.urls import url #maybe remove
 from . import views
 
 app_name = 'sponsor_app'
@@ -12,4 +13,5 @@ urlpatterns = [
   path('edit_driver/<int:id>',views.edit_driver_view, name='get drivers'),
   path('remove_driver/<int:id>',views.remove_driver_view, name='remove drivers'),
   path('catalog',views.catalog_view, name='catalog'),
+  path(r'change_password', views.change_password, name='change_password'),
 ]
