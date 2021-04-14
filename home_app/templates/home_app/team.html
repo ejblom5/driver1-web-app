@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <style>
+          ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+            position: -webkit-sticky; /* Safari */
+            position: sticky;
+            top: 0;
+            z-index: 100000;
+          }
+          
+          li {
+            float: left;
+          }
+          
+          li{
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 170%;
+          }
+          .meet {
+            font-size: 150%;
+            float: right;
+          }
+          li a{
+            color: white;
+          }
+          li:hover{
+            transform: scale(1.03);
+          }
+          li a:hover {
+            color: #F56600;
+            text-decoration: none;
+          }
+          </style>
+    </head>
+    <body style = "background-color: #F56600;">
+      
+      <div class="container-fullwidth">
+        <!-- As a heading -->
+        <ul>
+          <li>Driver One</li>
+          <li class="meet"><a href="/team">Meet The Team</a></li>
+          <li class="meet"><a href="/">Home</a></li>
+        </ul>
+
+        <div class="row">
+
+          <div class="col-2"></div>
+
+          <div class="col-4">
+            <div class="card card-hover">
+              <img class="card-img-top" src="https://lh3.googleusercontent.com/i9hMgtlhEdtIJf3jeL76lnD_BTHN6VPJuB-4nUli91tB6aVCxsZ1EnbmB_RYYfovM446NThilizds3GPGQbB6E6dal6SJI3bc-dxgwkWxemtSphcffltud2pzZ1F0mNKIwcFQ8l8hEz_WpZDeeRxauxQKp5bOSGfAJ9V57TZqD32T8BHuImKEfQuQTHn14QW5jXz26a7w2EAtl3FOhl4WwcbiJdD1qYX03lKIzZ9iSxPX36kUdJSGGAPEewDSmuXjJY_D-vFGe-hbt298lrIqAApn2j6sYpTseEcNn7a_XiVfW_DkfiLC2MxrnuoBnMF3NT-bqEzikzbJZarK1MyGQob_DZ42ur_i7-ywNRKLyjAFXCku8ftBnO9WjLxglI91SHH7Q7r0m3OUwH3zpn6so4yX26cAT729Pab22idPZPZ8X-W7zjTKOo4EpUwFfsFxiBK606UGZBkeNedIfj68eSPefEf2VN01uTi_O1T469rjjaUAby3YMf6ZP7W7h5cYRrHLZSJ1umI6TeXWrA0aqSDs5Iqs80NibxsHkhG0uQAwOtu3QluYdkOgr6D2JFbXgtQaBA6zAtmxRSeP8Gnn97GzdxM8O2wLDjFFLeKcS3RY4tXZebz2W3uOosXIfpr0sR8WJrbxFFn3DT-iBKghgG6FcWOrQU6A3fLp3cS0lQd-A-exuCbRw646TUnEFZnSx3AyPCqjXf61gB8TnWhLZrq=w829-h957-no?authuser=0" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Erik : Backend Developer</h5>
+                <p class="card-text">Erik is the backend developer for Driver One, and spends most of his time working on the web server, api and databases</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="card card-hover">
+              <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR3AaJS7VTx_YYe2rLVlOMvAWMX256WgbhPg&usqp=CAU" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Josh: Boss Man</h5>
+                <p class="card-text">He is the boss.</p>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="col-2"></div>
+        </div>
+
+        </div>
+      </div>
+
+    </body>
+</html>

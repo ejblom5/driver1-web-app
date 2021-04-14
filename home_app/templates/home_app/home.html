@@ -22,16 +22,26 @@
           }
           
           li{
-            display: block;
+            display: inline-block;
             color: white;
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
             font-size: 170%;
           }
-          
+          .meet {
+            font-size: 150%;
+            float: right;
+          }
+          li a{
+            color: white;
+          }
+          li:hover{
+            transform: scale(1.03);
+          }
           li a:hover {
-            background-color: #111;
+            color: #F56600;
+            text-decoration: none;
           }
           </style>
     </head>
@@ -41,6 +51,8 @@
         <!-- As a heading -->
         <ul>
           <li>Driver One</li>
+          <li class="meet"><a href="team">Meet The Team</a></li>
+          <li class="meet"><a href="">Home</a></li>
         </ul>
 
         <div class="row">

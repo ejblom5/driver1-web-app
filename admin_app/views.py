@@ -11,9 +11,14 @@ from .models import *
 
 @login_required(login_url='/admins/login')
 def index(request):
-  sponsor_user = Sponsor.objects.get(user=request.user)
+  admin_user = Driver.objects.filter(user=request.user,is_admin=True)
+  if admin_user.count() == 0:
+    logout(request)
+    return login_view(request)
+  admin_user = admin_user.first()
+  sponsor_user =  admin_user.sponsor 
   my_drivers = Driver.objects.filter(sponsor=sponsor_user)
-  return render(request = request, template_name = 'admin_app/index.html', context={"my_drivers":my_drivers})
+  return render(request = request, template_name = 'admin_app/index.html', context={"driver_count":my_drivers.count(),"admin":admin_user,"sponsor":sponsor_user})
 
 def login_view(request):
   # if not logged in already
@@ -21,11 +26,11 @@ def login_view(request):
       # check if loggin form was submitted
       form = AuthenticationForm()
       if request.method == 'POST':
-        username = request.POST['username']
+        email = request.POST['username']
         password = request.POST['password']
 
         # first check if the credentials belong to a user
-        auth_user = authenticate(request, username=username, password=password)
+        auth_user = authenticate(request, email=email, password=password)
         # then check if the user is a sponsor user
         admin = Driver.objects.filter(user=auth_user,is_admin=True)
         if auth_user is None:
@@ -52,7 +57,8 @@ def logout_view(request):
 
 @login_required(login_url='/admins/login')
 def my_drivers_view(request):
-  my_drivers = Driver.objects.filter(sponsor=request.user.sponsor)
+  admin_user = Driver.objects.filter(user=request.user).first()
+  my_drivers = Driver.objects.filter(sponsor=admin_user.sponsor)
   return render(request = request, template_name = 'admin_app/my_drivers.html', context={"my_drivers":my_drivers})
 
 @login_required(login_url='/admins/login')

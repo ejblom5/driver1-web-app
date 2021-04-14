@@ -13,6 +13,9 @@ from api.views import *
 @login_required(login_url='/sponsors/login')
 def index(request):
   sponsor_user = Sponsor.objects.filter(user=request.user)
+  if sponsor_user.count() == 0:
+    logout(request)
+    return login_view(request)
   my_drivers = Driver.objects.filter(sponsor=sponsor_user.first())
   my_applications = Application.objects.filter(sponsor=sponsor_user.first())
   application_count = my_applications.count()
@@ -89,13 +92,13 @@ def profile_page(request):
 
 @login_required(login_url='/sponsors/login')
 def get_drivers_view(request):
-    sponsor_user = Sponsor.objects.get(user=request.user)
+    sponsor_user = Sponsor.objects.filter(user=request.user)
     if request.method == 'POST':
         application_data = request.POST.dict()
-        Driver.objects.filter(id=application_data["new_driver_id"]).update(sponsor=sponsor_user)
+        Driver.objects.filter(id=application_data["new_driver_id"]).update(sponsor=sponsor_user.first())
         Application.objects.filter(id=application_data["application_id"]).delete()
 
-    my_applications = Application.objects.filter(sponsor=sponsor_user)
+    my_applications = Application.objects.filter(sponsor=sponsor_user.first()).all()
     return render(request = request, template_name = 'sponsor_app/get_drivers.html', context={"my_applications":my_applications})
 
 @login_required(login_url='/sponsors/login')

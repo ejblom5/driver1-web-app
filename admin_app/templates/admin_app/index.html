@@ -1,5 +1,22 @@
 {% extends 'admin_app/base.html' %}
 
 {% block content %}
-<H1>Admin Driver Home</H1>
+<div class="container">
+  <div class="row"></div>
+    <div class="col-2">
+    </div>
+    
+    <div class="col-8">
+        <div class="card card-login">
+          <div class="card-body">
+            <H1 class="card-title">Admin User: {{admin.name}}</H1>
+            <H1 class="card-title">Sponsor: {{sponsor.sponsor_name}}</H1>
+            <H3>Number of Drivers: {{driver_count}}</H1>
+          </div>
+        </div>
+    </div>
+    <div class="col-2">
+    </div>
+  </div>
+</div>
 {% endblock %}
