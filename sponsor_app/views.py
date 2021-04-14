@@ -67,7 +67,7 @@ def my_drivers_view(request):
 
 @login_required(login_url='/sponsors/login')
 def home_page(request):
-    logoug(request)
+    logout(request)
     template = loader.get_template('sponsor_app/home.html')
     return HttpResponse(template.render())
 

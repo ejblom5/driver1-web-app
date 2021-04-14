@@ -44,7 +44,7 @@ def driver_detail(request,id):
             updated_driver.name = data['name']
         if("address" in data):
             updated_driver.address = data['address']
-        if("driver_gender" in data and data['driver_gender'] in ["M","F","O"]):
+        if("driver_gender" in data):
             updated_driver.driver_gender = data['driver_gender']
         if("age" in data):
             updated_driver.age = data['age']
