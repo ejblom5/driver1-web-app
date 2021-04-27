@@ -6,6 +6,14 @@
 5. In the github site create a pull request to merge the new branch into main
 6. Get some people to review your code, or just go ahead and merge it if it is minor changes
 
+# Genral workflow for development
+- Testing sponsor credentials:
+  - email: sponsor1@sponsor1.com
+  - password: pass
+- Testing admin credentials
+  - email: admindriver1@admindriver1.com
+  - password: pass
+
 # Database Things
 In order to run the django app locally you may have to change what the database is pointing at in the settings.py file. If you change it to run locally make sure you don't commit that change to the master branch since then heroku will try to use a local db instead of the installed postgres one.
 
