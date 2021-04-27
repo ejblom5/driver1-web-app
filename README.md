@@ -6,11 +6,11 @@
 5. In the github site create a pull request to merge the new branch into main
 6. Get some people to review your code, or just go ahead and merge it if it is minor changes
 
-# Genral workflow for development
-- Testing sponsor credentials:
+# Testing Credentials
+- Sponsor:
   - email: sponsor1@sponsor1.com
   - password: pass
-- Testing admin credentials
+- Admin Driver
   - email: admindriver1@admindriver1.com
   - password: pass
 
